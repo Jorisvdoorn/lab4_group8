@@ -1,4 +1,4 @@
-linreg<-setRefClass("linreg",
+reg_output<-setRefClass("linreg",
                     fields = list(
                       betahat = "numeric", # regressions coefficients
                       yhat = "numeric", # fitted values
@@ -19,5 +19,12 @@ linreg<-setRefClass("linreg",
 )
 
 linreg<-function(formula, data){
-    stopifnot()
+  stopifnot()
+  
+  # use model.matrix to create matrix X consisting of independent variables out of the data
+  # pick y using all.vars()
+  
+  # calculate parameters and store into object of class linreg
+  
+  # return object
 }
