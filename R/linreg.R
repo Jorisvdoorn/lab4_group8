@@ -7,7 +7,7 @@ linreg<-setRefClass("linreg",
                       resvar = "numeric", # residual variance
                       betavar = "numeric", # variance of the regression coefficients
                       betat = "numeric", # t-values for each coefficient
-                                  ),
+                    ),
                     methods = list(
                       print = function(x) {something}, # does something
                       plot = function(x) {somethingelse}, # does something else
@@ -18,9 +18,6 @@ linreg<-setRefClass("linreg",
                     )
 )
 
-
-formula<-
-
 linreg<-function(formula, data){
-    
+    stopifnot()
 }
