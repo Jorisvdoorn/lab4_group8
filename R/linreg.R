@@ -1,5 +1,7 @@
 linreg <- setRefClass("linreg",
                       fields = list(
+                        formula = "formula",
+                        data = "data.frame",
                         beta_hat = "numeric", # regressions coefficients
                         y_hat = "numeric", # fitted values
                         res_hat = "numeric", # residuals
@@ -11,6 +13,13 @@ linreg <- setRefClass("linreg",
                       methods = list(
                         constructor = function() {
                           # initialise class and assigns values with <<-
+                          beta_hat <<- 1      # regressions coefficients
+                          y_hat <<- 1         # fitted values
+                          res_hat <<- 1       # residuals
+                          df <<- 1            # degrees of freedom
+                          res_var <<- 1       # residual variance
+                          beta_var <<- 1      # variance of the regression coefficients
+                          beta_t <<- 1        # t-values for each coefficient
                         }
                         
                         reg_output = function(formula, data){
