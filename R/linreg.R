@@ -10,6 +10,7 @@ linreg <- setRefClass("linreg",
                         beta_var = "numeric", # variance of the regression coefficients
                         beta_t = "numeric" # t-values for each coefficient
                       ),
+                      
                       methods = list(
                         constructor = function() {
                           # initialise class and assigns values with <<-
