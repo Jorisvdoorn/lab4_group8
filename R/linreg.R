@@ -1,4 +1,5 @@
 linreg = function(formula, data){
+  data_name = deparse(substitute(data))
   construct_linreg <- setRefClass(Class = "linreg",
                                   
                                   fields = list(
@@ -16,13 +17,14 @@ linreg = function(formula, data){
                                     df = "numeric", # degrees of freedom
                                     res_var = "numeric", # residual variance
                                     var_beta = "matrix", # variance of the regression coefficients
-                                    t_beta = "matrix" # t-values for each coefficient
-                                  ),
+                                    t_beta = "matrix", # t-values for each coefficient
+                                    std_error = "matrix", # standard error
+                                    p_value = "matrix" # significance level // p-value
+                                    ),
                                   
                                   methods = list(
                                     # initialise class and assigns values with <<-
-                                    initialize = function(formula, data) {
-                                      
+                                    initialize = function(formula, data, data_name) {
                                       
                                       # Assigning the data to matrices of dependent (Y) and independent vars (X)
                                       X <<- model.matrix(formula, data = data) 
@@ -52,33 +54,52 @@ linreg = function(formula, data){
                                       # t-values for each coefficient
                                       t_beta <<- beta_hat / sqrt(as.numeric(var(beta_hat)))
                                       
-                                      data_name <<- deparse(substitute(data))
+                                      # standard error
+                                      
+                                      data_name <<- data_name
                                       formula_name <<- deparse(formula)
                                     },
                                     
                                     # print out the coefficients and coefficient names
                                     print = function(){
+                                      
+                                      beta_vector = as.vector(beta_hat)
+                                      names(beta_vector) = rownames(beta_hat)
                                       cat("Call:\n")
-                                      cat("linreg(formula = ", formula_name, ", data = ",data_name,")\n\n")
+                                      cat(paste("linreg(formula = ", formula_name, ", data = ",data_name,")", sep = ""),"\n\n")
+                                      cat("Coefficients:\n")
+                                      print_inside(beta_vector)
                                     },
+                                    
                                     
                                     plot = function(){
                                       ggplot(data, aes(x=y_hat, y=res_hat))
+                                    },
+                                    
+                                    resid = function(){
+                                      return(res_hat)
+                                    },
+                                    
+                                    pred = function(){
+                                      return(y_hat)
+                                    },
+                                    
+                                    coef = function(){
+                                      beta_vector = as.vector(beta_hat)
+                                      names(beta_vector) = rownames(beta_hat)
+                                      return(beta_vector)
+                                    },
+                                    
+                                    summary = function(){
+                                      df1 <- data.frame(beta_hat, std_error, t_beta, p_value)
+                                      return(df1)
                                     }
                                   )
-                                  
-                                  # 
-                                  # plot = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # resid = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # pred = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # coef = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # summary = function(x) {somethingelse} # does something else
   )
-  
-  return(construct_linreg$new(formula, data))
-  
+  return(construct_linreg$new(formula, data, data_name))
 }
+
+print_inside = function(x){
+  print(x)
+}
+
