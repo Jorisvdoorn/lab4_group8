@@ -49,12 +49,13 @@ linreg = function(formula, data){
                                       res_var <<- as.numeric((t(res_hat) %*% res_hat)/df)
                                       
                                       # variance of the regression coefficients
-                                      var_beta <<- solve(t(R) %*% R) * res_var^2
-                                      
-                                      # t-values for each coefficient
-                                      t_beta <<- beta_hat / sqrt(as.numeric(var(beta_hat)))
+                                      var_beta <<- solve(t(R) %*% R) * res_var
                                       
                                       # standard error
+                                      std_error <<- as.matrix(sqrt(diag(var_beta)))
+                                      
+                                      # t-values for each coefficient
+                                      t_beta <<- beta_hat / std_error
                                       
                                       data_name <<- data_name
                                       formula_name <<- deparse(formula)
@@ -91,6 +92,8 @@ linreg = function(formula, data){
                                     },
                                     
                                     summary = function(){
+                                      cat("Call:\n")
+                                      cat(paste("linreg(formula = ", formula_name, ", data = ",data_name,")", sep = ""),"\n\n")
                                       df1 <- data.frame(beta_hat, std_error, t_beta, p_value)
                                       return(df1)
                                     }
@@ -102,4 +105,3 @@ linreg = function(formula, data){
 print_inside = function(x){
   print(x)
 }
-
