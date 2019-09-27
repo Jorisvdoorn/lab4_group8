@@ -1,49 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-linreg <- setRefClass("linreg",
-                      fields = list(
-                        formula = "formula",
-                        data = "data.frame",
-                        beta_hat = "numeric", # regressions coefficients
-                        y_hat = "numeric", # fitted values
-                        res_hat = "numeric", # residuals
-                        df = "numeric", # degrees of freedom
-                        res_var = "numeric", # residual variance
-                        beta_var = "numeric", # variance of the regression coefficients
-                        beta_t = "numeric" # t-values for each coefficient
-                      ),
-                      
-                      methods = list(
-                        constructor = function() {
-                          # initialise class and assigns values with <<-
-                          beta_hat <<- 1      # regressions coefficients
-                          y_hat <<- 1         # fitted values
-                          res_hat <<- 1       # residuals
-                          df <<- 1            # degrees of freedom
-                          res_var <<- 1       # residual variance
-                          beta_var <<- 1      # variance of the regression coefficients
-                          beta_t <<- 1        # t-values for each coefficient
-                        }
-=======
-construct_linreg <- setRefClass(Class = "linreg",
-                                
-                                fields = list(
-                                  formula = "formula",
-                                  data = "data.frame",
-                                  data_name = "character",
-                                  formula_name = "character",
-                                  X = "matrix",
-                                  Y = "matrix",
-                                  Q = "matrix",
-                                  R = "matrix",
-                                  beta_hat = "matrix", # regressions coefficients
-                                  y_hat = "matrix", # fitted values
-                                  res_hat = "matrix", # residuals
-                                  df = "numeric", # degrees of freedom
-                                  res_var = "numeric", # residual variance
-                                  var_beta = "matrix", # variance of the regression coefficients
-                                  t_beta = "matrix" # t-values for each coefficient
-=======
 linreg = function(formula, data){
   construct_linreg <- setRefClass(Class = "linreg",
                                   
@@ -62,14 +16,14 @@ linreg = function(formula, data){
                                     df = "numeric", # degrees of freedom
                                     res_var = "numeric", # residual variance
                                     var_beta = "matrix", # variance of the regression coefficients
-                                    t_beta = "matrix" # t-values for each coefficient
->>>>>>> e62b251b48f8edad0476f7ecf0d492a57ea046b4
+                                    t_beta = "matrix", # t-values for each coefficient
+                                    std_error = "matrix", # standard error
+                                    p_value = "matrix" # significance level // p-value
                                   ),
                                   
                                   methods = list(
                                     # initialise class and assigns values with <<-
                                     initialize = function(formula, data) {
-                                      
                                       
                                       # Assigning the data to matrices of dependent (Y) and independent vars (X)
                                       X <<- model.matrix(formula, data = data) 
@@ -99,6 +53,12 @@ linreg = function(formula, data){
                                       # t-values for each coefficient
                                       t_beta <<- beta_hat / sqrt(as.numeric(var(beta_hat)))
                                       
+                                      # standard error
+                                      std_error <<- sqrt(res_var) / sqrt(nrow(X))
+                                      
+                                      # p-value
+                                      p_value <<- pt(t_beta, df)
+                                      
                                       data_name <<- deparse(substitute(data))
                                       formula_name <<- deparse(formula)
                                     },
@@ -111,40 +71,30 @@ linreg = function(formula, data){
                                     
                                     plot = function(){
                                       ggplot(data, aes(x=y_hat, y=res_hat))
+                                    },
+                                    
+                                    resid = function(){
+                                      return(res_hat)
+                                    },
+                                    
+                                    pred = function(){
+                                      return(y_hat)
+                                    },
+                                    
+                                    coef = function(){
+                                      return(beta_hat)
+                                    },
+                                    
+                                    summary = function(){
+                                      df1 <- data.frame(beta_hat, std_error, t_beta, p_value)
+                                      return(df1)
                                     }
                                   )
-<<<<<<< HEAD
->>>>>>> 0eb134667d3a445de1a9af09933882b75baca932
-                        
-                        # 
-                        # plot = function(x) {somethingelse}, # does something else
-                        # 
-                        # resid = function(x) {somethingelse}, # does something else
-                        # 
-                        # pred = function(x) {somethingelse}, # does something else
-                        # 
-                        # coef = function(x) {somethingelse}, # does something else
-                        # 
-                        # summary = function(x) {somethingelse} # does something else
-                      )
-
-
-linreg = function(formula, data){
-=======
-                                  
-                                  # 
-                                  # plot = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # resid = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # pred = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # coef = function(x) {somethingelse}, # does something else
-                                  # 
-                                  # summary = function(x) {somethingelse} # does something else
   )
   
->>>>>>> e62b251b48f8edad0476f7ecf0d492a57ea046b4
   return(construct_linreg$new(formula, data))
   
 }
+
+linreg1 <- linreg(Petal.Length~Species, iris)
+linreg1$resid()
