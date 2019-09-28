@@ -126,6 +126,7 @@ linreg = function(formula, data){
                                     summary = function(){
                                       cat("Call:\n")
                                       cat(paste("linreg(formula = ", formula_name, ", data = ",data_name,")", sep = ""),"\n\n")
+                                      cat(paste("Std Dev of Residuals = ", std_dev_res, "\nDegrees of Freedom = ", df,"\n\n"))
                                       df1 <- data.frame(beta_hat, std_error, t_beta, p_value)
                                       return(df1)
                                     }

@@ -8,14 +8,52 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
+  
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
+  knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
-)
+  )
+```
+  
+```{r setup}
+  library(lab4group8)
 ```
 
-```{r setup}
-library(lab4group8)
-```
+# Using the linreg package
+## Introduction
+This package provides a Linear Regression Model as a function that returns the model as an Object. 
+
+## Running the model
+To run the model you need to input a *formula* and a *dataset*. This example uses the dataset *iris*, which is standard include in R. The model is of the form y~x, where y is the Sepal length depending on the x, the petal length.
+
+In the command above we create an object of the class *linreg* which contains all the information that we need.
+
+## Methods
+The linreg object can be manipulated by using six different methods:
+
+* print()
+* plot() 
+* resid() 
+* pred() 
+* coef()
+* summary()
+
+### print()
+*linreg1$print()* prints the coefficients.
+
+### plot()
+*linreg1$plot()* plots two graphs. The first plots the Residuals vs the Fitted values. The second is a Scale-Locationo plot.
+
+### resid()
+*linreg1$resid()* returns a vector with the residuals.
+
+### pred()
+*linreg1$pred()* returns a vector with the predicted values.
+
+### coef()
+*linreg1$coef()* returns the intercept plus the coefficients.
+
+### summary()
+*linreg1$summary()* prints the coefficients with their standard error, t-values, and p-value, plus the estimate of standard deviation of the variance and the degrees of freedom.
+
