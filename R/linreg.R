@@ -130,9 +130,3 @@ linreg = function(formula, data){
 print_inside = function(x){
   print(x)
 }
-
-linreg1 <- linreg(Petal.Length~Species, iris)
-linreg1$resid()
-
-lr2<- linreg(Petal.Length~Species, iris)
-lr2$plot()

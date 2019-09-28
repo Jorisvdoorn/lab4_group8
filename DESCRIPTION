@@ -9,5 +9,5 @@ Encoding: UTF-8
 Description: This package computes the Regressions coefficients, the fitted values, the residuals, the degress of freedom, the residual variance, the variance of the regression coefficients, and the t-values for each coefficient. Moreover it contains the methods print(), plot(), resid(), pred(), coef() and summary().
 License: -
 RoxygenNote: 6.1.1
-Imports: ggplot2
+Imports: ggplot2, gridExtra
 Suggests: testthat
