@@ -158,11 +158,3 @@ create_stars = function(df){
   }
   return(stars)
 }
-
-# linreg1 = linreg$new(Petal.Length~Species, iris)
-# lm1 = lm(Petal.Length~Species, iris)
-
-
-
-
-        
