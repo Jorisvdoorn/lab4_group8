@@ -57,6 +57,9 @@ linreg = function(formula, data){
                                       # t-values for each coefficient
                                       t_beta <<- beta_hat / std_error
                                       
+                                      #p_values
+                                      p_value <<- 2*pt(t_beta, df = df, lower.tail = FALSE)
+                                      
                                       data_name <<- data_name
                                       formula_name <<- deparse(formula)
                                     },
@@ -94,14 +97,40 @@ linreg = function(formula, data){
                                     summary = function(){
                                       cat("Call:\n")
                                       cat(paste("linreg(formula = ", formula_name, ", data = ",data_name,")", sep = ""),"\n\n")
-                                      df1 <- data.frame(beta_hat, std_error, t_beta, p_value)
-                                      return(df1)
+                                      cat("Coefficients:\n")
+                                      
                                     }
                                   )
   )
   return(construct_linreg$new(formula, data, data_name))
 }
 
-print_inside = function(x){
-  print(x)
+print_inside = function(x, ...){
+  print(x, ...)
 }
+
+create_stars = function(df){
+  stars = matrix(0, nrow = length(df), ncol = 1)
+  for (i in 1:length(df)){
+    if (df[i] < 0.001){stars[i] = "***"}
+    else if(df[i] < 0.01){stars[i] = "**"}
+    else if(df[i] < 0.05){stars[i] = "*"}
+    else if(df[i] < 0.1){stars[i] = "."}
+    else {stars[i] = " "}
+  }
+  return(stars)
+}
+
+linreg1 = linreg(Petal.Length~Species, iris)
+lm1 = lm(Petal.Length~Species, iris)
+
+
+beta_round = formatC(round(linreg1$beta_hat, 5), format='f', digits=5)
+std_round = formatC(round(linreg1$std_error, 5), format='f', digits=5)
+tval_round = formatC(round(linreg1$t_beta, 2), format='f', digits=2)
+pval_round = linreg1$p_value
+pval_round[which(pval_round<2e-16)] = "<2e-16"
+pval_round = formatC(pval_round, format='e', digits=2)
+summary_vec = cbind(beta_round, std_round, tval_round, pval_round, create_stars(linreg1$p_value))
+colnames(summary_vec) = c("Estimate", "Std. Error", "t value", "Pr(>|t|)", " ")
+noquote(summary_vec)
