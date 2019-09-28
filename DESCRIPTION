@@ -3,10 +3,15 @@ Type: Package
 Title: This package handles linear regression models
 Version: 1.0
 Date: 2019-09-23
-Author@R: c(person("Bayu Beta", "Brahmantio", email = "bayubrahmantio@gmail.com", role = c("aut", "cre")), person("Joris", "van Doorn", email = "jorva845@student.liu.se", role = "aut"))
+Author: c(person("Bayu Beta", "Brahmantio", email = "bayubrahmantio@gmail.com", role = c("aut", "cre")), person("Joris", "van Doorn", email = "jorva845@student.liu.se", role = "aut"))
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Encoding: UTF-8
 Description: This package computes the Regressions coefficients, the fitted values, the residuals, the degress of freedom, the residual variance, the variance of the regression coefficients, and the t-values for each coefficient. Moreover it contains the methods print(), plot(), resid(), pred(), coef() and summary().
 License: -
 RoxygenNote: 6.1.1
-Suggests: testthat
+Imports: ggplot2, gridExtra
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

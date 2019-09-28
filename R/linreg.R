@@ -1,3 +1,10 @@
+#' Running a Linear Multiple Reregression Model.
+#' 
+#' @param formula Takes a formula of the form Y~X.
+#' @param data Takes a dataset in the form of a data.frame.
+#' 
+#' @return Returns an object of the class 'linreg'. This object can be manipulated.
+
 linreg = function(formula, data){
   data_name = deparse(substitute(data))
   construct_linreg <- setRefClass(Class = "linreg",
@@ -19,8 +26,10 @@ linreg = function(formula, data){
                                     var_beta = "matrix", # variance of the regression coefficients
                                     t_beta = "matrix", # t-values for each coefficient
                                     std_error = "matrix", # standard error
-                                    p_value = "matrix" # significance level // p-value
-                                    ),
+                                    p_value = "matrix", # significance level // p-value
+                                    std_dev_res = "numeric", # the standard deviation of the residuals
+                                    std_res_sqrt = "matrix" # square root of the absolute standardized residuals
+                                  ),
                                   
                                   methods = list(
                                     # initialise class and assigns values with <<-
@@ -57,8 +66,19 @@ linreg = function(formula, data){
                                       # t-values for each coefficient
                                       t_beta <<- beta_hat / std_error
                                       
+<<<<<<< HEAD
                                       #p_values
                                       p_value <<- 2*pt(t_beta, df = df, lower.tail = FALSE)
+=======
+                                      # p-value
+                                      p_value <<- pt(t_beta, df)
+                                      
+                                      # standard deviation of residuals
+                                      std_dev_res <<- sqrt(as.numeric((t(res_hat) %*% res_hat)/df))
+                                      
+                                      # square root of the absolute standardized residuals
+                                      std_res_sqrt <<- sqrt(abs(res_hat/std_dev_res))
+>>>>>>> d94870e6d063972d18fc12258b2cf134edf48b6c
                                       
                                       data_name <<- data_name
                                       formula_name <<- deparse(formula)
@@ -75,9 +95,23 @@ linreg = function(formula, data){
                                       print_inside(beta_vector)
                                     },
                                     
-                                    
                                     plot = function(){
-                                      ggplot(data, aes(x=y_hat, y=res_hat))
+                                      graph1 <- ggplot(data, aes(x=y_hat, y=res_hat)) +
+                                        geom_point() +
+                                        ylab("Residuals") +
+                                        xlab("Fitted values") +
+                                        geom_smooth(method = "lm", formula = y ~ x) +
+                                        ggtitle("Residuals vs Fitted")
+                                      
+                                      graph2 <- ggplot(data, aes(x=y_hat, y=std_res_sqrt)) +
+                                        geom_point() +
+                                        ylab(expression(sqrt("|Standardized residuals|"))) +
+                                        xlab("Fitted values") +
+                                        geom_smooth(method = "lm", formula = y ~ x) +
+                                        ggtitle("Scale-Location")
+                                      
+                                      graph_list<-grid.arrange(graph1,graph2)
+                                      return(graph_list)
                                     },
                                     
                                     resid = function(){
@@ -97,8 +131,14 @@ linreg = function(formula, data){
                                     summary = function(){
                                       cat("Call:\n")
                                       cat(paste("linreg(formula = ", formula_name, ", data = ",data_name,")", sep = ""),"\n\n")
+<<<<<<< HEAD
                                       cat("Coefficients:\n")
                                       
+=======
+                                      cat(paste("Std Dev of Residuals = ", std_dev_res, "\nDegrees of Freedom = ", df,"\n\n"))
+                                      df1 <- data.frame(beta_hat, std_error, t_beta, p_value)
+                                      return(df1)
+>>>>>>> d94870e6d063972d18fc12258b2cf134edf48b6c
                                     }
                                   )
   )
