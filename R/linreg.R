@@ -1,3 +1,10 @@
+#' Running a Linear Multiple Reregression Model.
+#' 
+#' @param formula Takes a formula of the form Y~X.
+#' @param data Takes a dataset in the form of a data.frame.
+#' 
+#' @return Returns an object of the class 'linreg'. This object can be manipulated.
+
 linreg = function(formula, data){
   data_name = deparse(substitute(data))
   construct_linreg <- setRefClass(Class = "linreg",
