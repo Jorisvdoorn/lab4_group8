@@ -7,8 +7,12 @@
 #' 
 #' @return Returns an object of the class 'linreg'. This object can be manipulated.
 #' 
+#' @import methods
+#' @import ggplot2
+#' @import gridExtra
+#' 
 #' @export linreg
-
+#' @exportClass linreg
 linreg <- setRefClass(Class = "linreg",
                       fields = list(
                         formula = "formula",
