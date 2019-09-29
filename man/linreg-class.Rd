@@ -4,7 +4,7 @@
 \name{linreg-class}
 \alias{linreg-class}
 \alias{linreg}
-\title{Running a Linear Multiple Reregression Model.}
+\title{Linear Regression}
 \arguments{
 \item{formula}{Takes a formula of the form Y~X.}
 

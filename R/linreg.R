@@ -1,9 +1,13 @@
+#' Linear Regression
+#' 
 #' Running a Linear Multiple Reregression Model.
 #' 
 #' @param formula Takes a formula of the form Y~X.
 #' @param data Takes a dataset in the form of a data.frame.
 #' 
 #' @return Returns an object of the class 'linreg'. This object can be manipulated.
+#' 
+#' @export linreg
 
 linreg <- setRefClass(Class = "linreg",
                       fields = list(
@@ -135,7 +139,7 @@ linreg <- setRefClass(Class = "linreg",
                           print_inside(vec_summary)
                           
                           cat("---\n")
-                          cat("Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1\n\n")
+                          cat("Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n")
                           cat(paste("Residual standard error: ", round(std_dev_res, 4), " on ", df," degrees of freedom", sep = ""))
                           
                         }
